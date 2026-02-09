@@ -1,0 +1,8 @@
+#!/usr/bin/sh
+make
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+mkdir out
+mv template_arm9.nds out/out.nds
+melonDS ./out/out.nds

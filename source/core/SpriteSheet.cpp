@@ -1,0 +1,47 @@
+#include "SpriteFrame.h"
+#include "SpriteSheet.h"
+
+u16 getTileSize(SpriteSize size, SpriteColorFormat format) {
+    u32 pixels;
+    switch(size) {
+        case SpriteSize_8x8: pixels = 8*8; break;
+        case SpriteSize_16x16: pixels = 16*16; break;
+        case SpriteSize_32x32: pixels = 32*32; break;
+        case SpriteSize_64x64: pixels = 64*64; break;
+        
+        case SpriteSize_16x8: pixels = 16*8; break;
+        case SpriteSize_32x8: pixels = 32*8; break;
+        case SpriteSize_32x16: pixels = 32*16; break;
+        case SpriteSize_64x32: pixels = 64*32; break;
+        
+        case SpriteSize_8x16: pixels = 8*16; break;
+        case SpriteSize_8x32: pixels = 8*32; break;
+        case SpriteSize_16x32: pixels = 16*32; break;
+        case SpriteSize_32x64: pixels = 32*64; break;
+        
+        default:
+            return 0;
+    }
+
+    if (format == SpriteColorFormat_256Color) {
+        return pixels;
+    } else {
+        return pixels / 2;
+    }
+}
+
+SpriteSheet::SpriteSheet(const void* src, u32 size, SpriteSize sprite_size, SpriteColorFormat format)
+    : m_source(src), m_size(size), m_sprite_size(sprite_size), m_format(format) {}
+
+int SpriteSheet::loadFrame(SpriteFrame *frame, OamState* oam, int idx) {
+    u32 tileSize = getTileSize(m_sprite_size, m_format);
+    const u8* ptr = (const u8*)m_source + idx * tileSize;
+
+    return frame->init(
+        oam,
+        ptr,
+        tileSize,
+        m_sprite_size,
+        m_format
+    );
+}
