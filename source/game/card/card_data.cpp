@@ -9,7 +9,7 @@ static inline void set_rank(card_data_t* card, int rank) {
 }
 static inline void set_suit(card_data_t* card, Suit suit) {
     *card &= ~SUIT_MASK;             // Clear bits 5-7
-    *card |= (suit & 0b111) << 5;    // Set new suit
+    *card |= ((u8)suit & 0b111) << 5;    // Set new suit
 }
 static inline void set_seal(card_data_t* card, int seal) {
     *card &= ~SEAL_MASK;             // Clear bits 8-10

@@ -62,44 +62,16 @@ int main(int argc, char** argv) {
 
     SpriteSheet sheet(enhancer_sprsTiles, enhancer_sprsTilesLen, SpriteSize_64x64, SpriteColorFormat_256Color);
 
-    SpriteFrame frames[NUMBER_OF_FRAMES];
-    Sprite sprites[NUMBER_OF_FRAMES];
-
-    int loaded = 0;
-    u32 bytes_used = 0;
+    
 
     while(1) {
         scanKeys();
 
-        for (int i = 0; i < loaded; i++) {
-            if (!sprites[i].frame()->valid()) {
-                printf("Invalid frame %d\n", i);
-            }
-
-            int x = (i % 5) * 48;
-            int y = ((i / 5) * 64) % 192;
-
-            sprites[i].draw(i, x, y);
-        }
+        
 
         swiWaitForVBlank();
         oamUpdate(&oamMain);
         oamUpdate(&oamSub);
-    
-        printf("Loaded %d/%d\nBytes used: %d\n--\n", loaded, NUMBER_OF_FRAMES, bytes_used);
-
-        do {
-            scanKeys();
-        } while(!keysDown());
-
-        bytes_used += oamBytesForSprite(SpriteSize_64x64, SpriteColorFormat_256Color);
-        int err = sheet.loadFrame(&frames[loaded], &oamMain, loaded % 34);
-        if (err) {
-            printf("Failed to load frame %d\n", loaded + 1);
-            break;
-        }
-        sprites[loaded].setFrame(&frames[loaded]);
-        loaded++;
     }
 
     do {

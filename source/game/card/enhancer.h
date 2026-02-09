@@ -1,43 +1,42 @@
 #pragma once
 
-#include <enhancers.h>
+#include <enhancer_sprs.h>
 
 enum class EnhancerSpriteIndex {
-    RedBack = 0,
-    NebulaBack = 3,
-    BlueBack = 14,
-    YellowBack = 15,
-    GreenBack = 16,
-    BlackBack = 17,
-    PlasmaBack = 18,
-    BicolorBack = 19,
-    GhostBack = 20,
-    MagicBack = 21,
-    CheckeredBack = 22,
-    ErraticBack = 23,
-    AbandonedDeck = 24,
-    PaintedDeck = 25,
-
-    AnaglyphBack = 29,
-    ZodiacBack = 30,
+    RedBack = 1,
+    NebulaBack = 2,
+    ZodiacBack = 6,
+    BlueBack = 7,
+    YellowBack = 8,
+    GreenBack = 9,
+    BlackBack = 10,
+    PlasmaBack = 11,
+    GhostBack = 12,
+    MagicBack = 20,
+    CheckeredBack = 21,
+    ErraticBack = 22,
+    AbandonedDeck = 23,
+    PaintedDeck = 24,
+    AnaglyphBack = 25,
     
-    Locked = 4,
+    Locked = 3,
     
-    Normal = 1,
-    Stone = 5,
-    Gold = 6,
-    Lucky = 11,
-    Glass = 12,
-    Steel = 13,
+    Normal = 0,
+    Stone = 4,
+    Gold = 5,
+    Lucky = 17,
+    Glass = 18,
+    Steel = 19,
 
-    Bonus = 8,
-    Mult = 9,
-    Wild = 10,
+    Bonus = 14,
+    Mult = 15,
+    Wild = 16,
 
-    GoldSeal = 2,
-    PurpleSeal = 31,
-    RedSeal = 32,
-    BlueSeal = 33,
+    // unused!
+    // GoldSeal = 2,
+    // PurpleSeal = 31,
+    // RedSeal = 32,
+    // BlueSeal = 33,
 
-    Legendary = 7
+    Legendary = 13
 };

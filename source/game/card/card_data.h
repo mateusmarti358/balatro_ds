@@ -4,15 +4,15 @@
 
 #include "enhancer.h"
 
-enum Suit {
+enum class Suit {
     DIAMONDS = 0,
     CLUBS = 1,
     HEARTS = 2,
     SPADES = 3
 };
 
-typedef int card_data_t;
-typedef char seal_t;
+typedef u16 card_data_t;
+typedef u8 seal_t;
 
 #pragma region card_data_macros
 
