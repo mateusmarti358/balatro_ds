@@ -8,6 +8,7 @@
 #define ENHANCER_COUNT 26
 #define SEAL_COUNT 4
 #define CARD_COUNT 52
+#define BONUS_COUNT 4
 
 class CardManager {
     OamState* m_oam;
@@ -23,15 +24,22 @@ class CardManager {
     SpriteSheet m_seals;
     FrameEntry m_sealFrames[SEAL_COUNT];
 
+    // SpriteSheet m_bonuses;
+    // FrameEntry m_bonusFrames[BONUS_COUNT];
+
     // SpriteSheet m_cards;
     // SpriteFrame m_cardFrames[CARD_COUNT];
 
-    inline void loadEnhancement(u8 enhancer);
+    inline void loadEntry(FrameEntry* frame, int fidx);
+
+    inline void loadEnhancer(u8 enhancer);
     inline void loadPCard(u8 rank, u8 suit);
     inline void loadSeal(seal_t seal);
     inline void loadBonus(u8 bonus);
 
-    inline void unloadEnhancement(u8 enhancer);
+    inline void unloadEntry(FrameEntry* frame, int fidx);
+
+    inline void unloadEnhancer(u8 enhancer);
     inline void unloadPCard(u8 rank, u8 suit);
     inline void unloadSeal(seal_t seal);
     inline void unloadBonus(u8 bonus);

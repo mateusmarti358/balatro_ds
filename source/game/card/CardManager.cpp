@@ -26,42 +26,59 @@ CardManager::CardManager(
     OamState* oam
 ) : m_oam(oam),
     m_enhancers(enhancer_sprsTiles, enhancer_sprsTilesLen, SpriteSize_32x32, SpriteColorFormat_256Color),
-    m_seals(seal_sprsTiles, seal_sprsTilesLen, SpriteSize_16x16, SpriteColorFormat_16Color)
+    m_seals(seal_sprsTiles, seal_sprsTilesLen, SpriteSize_8x8, SpriteColorFormat_16Color)
 {}
 
 #pragma region load
-void CardManager::loadEnhancement(u8 enhancer) {
+void CardManager::loadEntry(FrameEntry* frame, int fidx) {
+    if ( frame->count != 0 ) {
+        sassert(frame->frame.valid(), "invalid frame: %d", fidx);
+        frame->count++;
+        return;
+    }
+    
+    m_seals.loadFrame(&frame->frame, m_oam, fidx);
+    frame->count++;
+}
 
+void CardManager::loadEnhancer(u8 enhancer) {
+    sassert(enhancer < ENHANCER_COUNT, "invalid seal");
+    FrameEntry* frame = &m_enhancerFrames[enhancer];
+    loadEntry(frame, enhancer);
 }
 void CardManager::loadPCard(u8 rank, u8 suit) {
-
+    // TODO!
 }
 void CardManager::loadSeal(seal_t seal) {
-    u8 seal = SEAL(card);
     sassert(seal < SEAL_COUNT, "invalid seal");
 
     if ( seal == NO_SEAL )
         return;
 
     FrameEntry* frame = &m_sealFrames[seal - 1];
-
-    if ( frame->count != 0 ) {
-        sassert(frame->frame.valid(), "invalid frame");
-        frame->count++;
-        return;
-    }
-    
-    m_seals.loadFrame(&frame->frame, nullptr, seal - 1);
-    frame->count++;
+    loadEntry(frame, seal - 1);
 }
 void CardManager::loadBonus(u8 bonus) {
+    sassert(bonus < BONUS, "invalid bonus");
 
+    if ( bonus == BONUS_NONE )
+        return;
+
+    bonus = bonusToIdx(bonus);
+
+    FrameEntry* frame = &m_enhancerFrames[bonus];
+
+    loadEntry(frame, bonus);
 }
 
 #pragma endregion
 #pragma region unload
 
-void CardManager::unloadEnhancement(u8 enhancer) {
+void CardManager::unloadEntry(FrameEntry* frame, int fidx) {
+
+}
+
+void CardManager::unloadEnhancer(u8 enhancer) {
 
 }
 void CardManager::unloadPCard(u8 rank, u8 suit) {
@@ -78,12 +95,8 @@ void CardManager::unloadBonus(u8 bonus) {
 
 void CardManager::loadCard(card_data_t card) {
     u8 enhancement = ENHANCEMENT(card);
-    sassert(enhancement < ENHANCER_COUNT, "invalid enhancement");
-    int enh_idx = enhancementToIdx(enhancement);
-    if ( !m_enhancerFrames[enh_idx].valid() ) {
-        m_enhancers.loadFrame(&m_enhancerFrames[enhancement], nullptr, enh_idx);
-    }
-
+    u8 enhancerIdx = enhancementToIdx(enhancement);
+    loadEnhancer(enhancerIdx);
     loadSeal(SEAL(card));
     
     u8 bonus = BONUS(card) + 13;
@@ -102,7 +115,5 @@ void CardManager::draw(card_data_t card, int id, int x, int y) {
     sassert(m_enhancerFrames[enhancement].valid(), "invalid enhancement, poss cause: card not loaded");
 
     u8 seal = SEAL(card);
-    if ( !m_sealFrames[seal].valid() ) {
-        
-    }
+    sassert(m_sealFrames[seal - 1].frame.valid(), "invalid seal, poss cause: card not loaded");
 }
