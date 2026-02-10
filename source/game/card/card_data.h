@@ -49,9 +49,9 @@ typedef u8 seal_t;
 
 #pragma endregion
 
-static inline void set_stone(card_data_t* card, bool is_stone);
-static inline void set_rank(card_data_t* card, int rank);
-static inline void set_suit(card_data_t* card, Suit suit);
-static inline void set_seal(card_data_t* card, int seal);
-static inline void set_enhancement(card_data_t* card, int enhancement);
-static inline void set_bonus(card_data_t* card, int bonus);
+inline void set_stone(card_data_t* card, bool is_stone);
+inline void set_rank(card_data_t* card, int rank);
+inline void set_suit(card_data_t* card, Suit suit);
+inline void set_seal(card_data_t* card, int seal);
+inline void set_enhancement(card_data_t* card, int enhancement);
+inline void set_bonus(card_data_t* card, int bonus);

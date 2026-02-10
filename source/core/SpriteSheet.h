@@ -10,12 +10,12 @@ u16 getTileSize(SpriteSize size, SpriteColorFormat format);
 
 class SpriteSheet {
     const void* m_source;
-    u32 m_size;
+    u32 m_source_size;
     SpriteSize m_sprite_size;
     SpriteColorFormat m_format;
 
 public:
-    SpriteSheet(const void* src, u32 size, SpriteSize sprite_size, SpriteColorFormat format);
+    SpriteSheet(const void* src, u32 source_size, SpriteSize sprite_size, SpriteColorFormat format);
 
     int loadFrame(SpriteFrame *frame, OamState* oam, int idx);
 };

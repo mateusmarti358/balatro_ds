@@ -30,8 +30,8 @@ u16 getTileSize(SpriteSize size, SpriteColorFormat format) {
     }
 }
 
-SpriteSheet::SpriteSheet(const void* src, u32 size, SpriteSize sprite_size, SpriteColorFormat format)
-    : m_source(src), m_size(size), m_sprite_size(sprite_size), m_format(format) {}
+SpriteSheet::SpriteSheet(const void* src, u32 source_size, SpriteSize sprite_size, SpriteColorFormat format)
+    : m_source(src), m_source_size(source_size), m_sprite_size(sprite_size), m_format(format) {}
 
 int SpriteSheet::loadFrame(SpriteFrame *frame, OamState* oam, int idx) {
     u32 tileSize = getTileSize(m_sprite_size, m_format);

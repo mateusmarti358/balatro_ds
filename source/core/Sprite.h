@@ -14,8 +14,8 @@ public:
     Sprite();
     Sprite(SpriteFrame* frame);
 
-    void setFrame(SpriteFrame* frame);
-    SpriteFrame* frame() const;
+    inline void setFrame(SpriteFrame* frame);
+    inline SpriteFrame* frame() const;
 
     void draw(int id, int x, int y);
 };
