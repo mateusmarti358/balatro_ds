@@ -30,13 +30,13 @@ CardManager::CardManager(
 {}
 
 #pragma region load
-void loadEnhancement(OamState*u8 enhancer) {
+void CardManager::loadEnhancement(u8 enhancer) {
 
 }
-void loadPCard(OamState*u8 rank, u8 suit) {
+void CardManager::loadPCard(u8 rank, u8 suit) {
 
 }
-void CardManager::loadSeal(OamState*seal_t seal) {
+void CardManager::loadSeal(seal_t seal) {
     u8 seal = SEAL(card);
     sassert(seal < SEAL_COUNT, "invalid seal");
 
@@ -54,29 +54,29 @@ void CardManager::loadSeal(OamState*seal_t seal) {
     m_seals.loadFrame(&frame->frame, nullptr, seal - 1);
     frame->count++;
 }
-void loadBonus(OamState*u8 bonus) {
+void CardManager::loadBonus(u8 bonus) {
 
 }
 
 #pragma endregion
 #pragma region unload
 
-void unloadEnhancement(OamState*u8 enhancer) {
+void CardManager::unloadEnhancement(u8 enhancer) {
 
 }
-void unloadPCard(OamState*u8 rank, u8 suit) {
+void CardManager::unloadPCard(u8 rank, u8 suit) {
 
 }
-void unloadSeal(OamState*seal_t seal) {
+void CardManager::unloadSeal(seal_t seal) {
 
 }
-void unloadBonus(OamState*u8 bonus) {
+void CardManager::unloadBonus(u8 bonus) {
 
 }
 
 #pragma endregion
 
-void CardManager::loadCard(OamState*card_data_t card) {
+void CardManager::loadCard(card_data_t card) {
     u8 enhancement = ENHANCEMENT(card);
     sassert(enhancement < ENHANCER_COUNT, "invalid enhancement");
     int enh_idx = enhancementToIdx(enhancement);
