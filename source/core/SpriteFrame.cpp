@@ -6,6 +6,6 @@ void deleteSpriteFrame(SpriteFrame* frame) {
     }
 }
 
-bool SpriteFrame_valid(SpriteFrame* frame) const {
+bool SpriteFrame_valid(SpriteFrame* frame) {
     return frame->oam && frame->gfx;
 }

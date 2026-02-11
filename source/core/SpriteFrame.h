@@ -12,4 +12,4 @@ struct SpriteFrame {
 };
 
 void deleteSpriteFrame(SpriteFrame* frame);
-bool valid(SpriteFrame* frame);
+bool SpriteFrame_valid(SpriteFrame* frame);
