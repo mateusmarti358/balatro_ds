@@ -1,7 +1,7 @@
 #include "SpriteFrame.h"
 #include "SpriteSheet.h"
 
-u16 getTileSize(SpriteSize size, SpriteColorFormat format) {
+inline u16 getTileSize(SpriteSize size, SpriteColorFormat format) {
     u32 pixels;
     switch(size) {
         case SpriteSize_8x8: pixels = 8*8; break;
@@ -30,18 +30,7 @@ u16 getTileSize(SpriteSize size, SpriteColorFormat format) {
     }
 }
 
-SpriteSheet::SpriteSheet(const void* src, u32 source_size, SpriteSize sprite_size, SpriteColorFormat format)
-    : m_source(src), m_source_size(source_size), m_sprite_size(sprite_size), m_format(format) {}
-
-int SpriteSheet::loadFrame(SpriteFrame *frame, OamState* oam, int idx) {
-    u32 tileSize = getTileSize(m_sprite_size, m_format);
-    const u8* ptr = (const u8*)m_source + idx * tileSize;
-
-    return frame->init(
-        oam,
-        ptr,
-        tileSize,
-        m_sprite_size,
-        m_format
-    );
+buffer_t getSpriteBuffer(SpriteSheet* sheet, u32 index) {
+    u32 offset = index * getTileSize(sheet->m_sprite_size, sheet->m_format);
+    return (buffer_t){ sheet->m_source + offset, getTileSize(sheet->m_sprite_size, sheet->m_format) };
 }
