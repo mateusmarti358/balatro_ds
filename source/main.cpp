@@ -23,7 +23,7 @@ void dsInit() {
     consoleDemoInit();
 
     dmaCopy(enhancer_sprsPal, SPRITE_PALETTE, enhancer_sprsPalLen);
-    // dmaCopy(enhancer_sprsPal, SPRITE_PALETTE_SUB, enhancer_sprsPalLen);
+    dmaCopy(enhancer_sprsPal, SPRITE_PALETTE_SUB, enhancer_sprsPalLen);
 }
 
 #define NUMBER_OF_FRAMES 50
@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
     while(1) {
         scanKeys();
 
-        Sprite_draw(&sprite, 0, 0, 0);        
+        Sprite_draw(&sprite, 0, 0, 0);
 
         swiWaitForVBlank();
         oamUpdate(&oamMain);
