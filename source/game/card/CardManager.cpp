@@ -30,6 +30,7 @@ CardManager::CardManager(
 {}
 
 #pragma region load
+
 void CardManager::loadEntry(FrameEntry* frame, int fidx) {
     if ( frame->count != 0 ) {
         sassert(frame->frame.valid(), "invalid frame: %d", fidx);
@@ -107,7 +108,6 @@ void CardManager::loadCard(card_data_t card) {
 
     // u8 rank = RANK(card);
     // u8 suit = SUIT(card);
-    
 }
 
 void CardManager::draw(card_data_t card, int id, int x, int y) {
@@ -116,4 +116,8 @@ void CardManager::draw(card_data_t card, int id, int x, int y) {
 
     u8 seal = SEAL(card);
     sassert(m_sealFrames[seal - 1].frame.valid(), "invalid seal, poss cause: card not loaded");
+}
+
+void CardManager::unloadCard(CardSprite card) {
+    
 }

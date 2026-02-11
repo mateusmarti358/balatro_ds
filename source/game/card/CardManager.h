@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../../core/SpriteSheet.h"
-#include "../../core/SpriteFrame.h"
+#include "../../core/Sprite/SpriteSheet.h"
+#include "../../core/Sprite/SpriteFrame.h"
+#include "../../core/video_allocator/pool.h"
 
 #include "card_data.h"
 
@@ -11,11 +12,12 @@
 #define BONUS_COUNT 4
 
 class CardManager {
-    OamState* m_oam;
+    pool_t m_pool;
 
     struct FrameEntry {
         SpriteFrame frame;
-        int count = 0;
+        u16 pool_idx;
+        u16 count = 0;
     };
 
     SpriteSheet m_enhancers;
@@ -43,10 +45,10 @@ class CardManager {
     inline void unloadPCard(u8 rank, u8 suit);
     inline void unloadSeal(seal_t seal);
     inline void unloadBonus(u8 bonus);
+
 public:
     CardManager(OamState*);
 
-    void loadCard(card_data_t card);
-
-    void draw(card_data_t card, int id, int x, int y);
+    CardSprite loadCard(card_data_t card);
+    void unloadCard(CardSprite card);
 };

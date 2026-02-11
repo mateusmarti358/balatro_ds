@@ -9,6 +9,8 @@
 #include "core/Sprite/SpriteFrame.h"
 #include "core/Sprite/Sprite.h"
 
+#include "core/video_allocator/pool.h"
+
 #include <enhancer_sprs.h>
 
 void dsInit() {
