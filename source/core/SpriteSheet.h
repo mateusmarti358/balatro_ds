@@ -4,7 +4,7 @@
 
 #include <nds.h>
 
-#include "buffer.h"
+#include "SpriteData.h"
 
 u16 getTileSize(SpriteSize size, SpriteColorFormat format);
 
@@ -14,4 +14,4 @@ typedef struct {
     SpriteColorFormat format;
 } SpriteSheet;
 
-buffer_t SpriteSheet_getSpriteBuffer(SpriteSheet* sheet, u32 index);
+SpriteData SpriteSheet_getSpriteData(SpriteSheet* sheet, u32 index);

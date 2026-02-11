@@ -65,11 +65,14 @@ int main(int argc, char** argv) {
     sheet.sprite_size = SpriteSize_32x32;
     sheet.format = SpriteColorFormat_256Color;
 
+    SpriteData sd = SpriteSheet_getSpriteData(&sheet, 25);
+
+    void* gfx = oamAllocateGfx(&oamMain, sd.size, sd.format);
+    dmaCopy(sd.ptr, gfx, oamBytesForSprite(sd.size, sd.format));
+    sd.gfx = gfx;
+
     SpriteFrame frame;
-    frame.oam = &oamMain;
-    frame.gfx = SpriteSheet_getSpriteBuffer(&sheet, 1).ptr;
-    frame.size = SpriteSize_32x32;
-    frame.format = SpriteColorFormat_256Color;
+    initSpriteFrame(&frame, sd, &oamMain);
 
     Sprite sprite;
     sprite.frame = &frame;

@@ -30,7 +30,7 @@ inline u16 getTileSize(SpriteSize size, SpriteColorFormat format) {
     }
 }
 
-buffer_t SpriteSheet_getSpriteBuffer(SpriteSheet* sheet, u32 index) {
+SpriteData SpriteSheet_getSpriteData(SpriteSheet* sheet, u32 index) {
     u32 offset = index * getTileSize(sheet->sprite_size, sheet->format);
-    return (buffer_t){ (void*)sheet->source + offset, getTileSize(sheet->sprite_size, sheet->format) };
+    return (SpriteData){ (void*)sheet->source + offset, NULL, sheet->sprite_size, sheet->format };
 }

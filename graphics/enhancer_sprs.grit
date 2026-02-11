@@ -7,6 +7,6 @@
 # Exclude the map
 -m!
 
-# Set metatile size to 4x4 (8*8 = 64 pixels wide, 8*8 = 64 pixels tall)
--Mw8
--Mh8
+# Set metatile size to 4x4 (4*8 = 32 pixels wide, 4*8 = 32 pixels tall)
+-Mw4
+-Mh4
