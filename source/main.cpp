@@ -60,14 +60,24 @@ u32 oamBytesForSprite(SpriteSize size, SpriteColorFormat format) {
 int main(int argc, char** argv) {
     dsInit();
 
-    SpriteSheet sheet(enhancer_sprsTiles, enhancer_sprsTilesLen, SpriteSize_64x64, SpriteColorFormat_256Color);
+    SpriteSheet sheet;
+    sheet.source = enhancer_sprsTiles;
+    sheet.sprite_size = SpriteSize_32x32;
+    sheet.format = SpriteColorFormat_256Color;
 
-    
+    SpriteFrame frame;
+    frame.oam = &oamMain;
+    frame.gfx = SpriteSheet_getSpriteBuffer(&sheet, 1).ptr;
+    frame.size = SpriteSize_32x32;
+    frame.format = SpriteColorFormat_256Color;
+
+    Sprite sprite;
+    sprite.frame = &frame;
 
     while(1) {
         scanKeys();
 
-        
+        Sprite_draw(&sprite, 0, 0, 0);        
 
         swiWaitForVBlank();
         oamUpdate(&oamMain);

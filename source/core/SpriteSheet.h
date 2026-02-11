@@ -14,4 +14,4 @@ typedef struct {
     SpriteColorFormat format;
 } SpriteSheet;
 
-buffer_t getSpriteBuffer(SpriteSheet* sheet, u32 index);
+buffer_t SpriteSheet_getSpriteBuffer(SpriteSheet* sheet, u32 index);
