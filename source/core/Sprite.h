@@ -7,15 +7,8 @@
 
 #include "SpriteFrame.h"
 
-class Sprite {
-    SpriteFrame* m_frame;
-
-public:
-    Sprite();
-    Sprite(SpriteFrame* frame);
-
-    inline void setFrame(SpriteFrame* frame);
-    inline SpriteFrame* frame() const;
-
-    void draw(int id, int x, int y);
+struct Sprite {
+    SpriteFrame* frame = NULL;
 };
+
+void Sprite_draw(Sprite* sprite, int id, int x, int y);
