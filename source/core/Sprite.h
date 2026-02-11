@@ -7,8 +7,8 @@
 
 #include "SpriteFrame.h"
 
-struct Sprite {
-    SpriteFrame* frame = NULL;
-};
+typedef struct {
+    SpriteFrame* frame;
+} Sprite;
 
 void Sprite_draw(Sprite* sprite, int id, int x, int y);

@@ -5,8 +5,8 @@
 #include <nds.h>
 
 typedef struct {
-    OamState* oam = NULL;
-    void* gfx = NULL;
+    OamState* oam;
+    void* gfx;
     SpriteSize size;
     SpriteColorFormat format;
 } SpriteFrame;

@@ -31,6 +31,6 @@ inline u16 getTileSize(SpriteSize size, SpriteColorFormat format) {
 }
 
 buffer_t getSpriteBuffer(SpriteSheet* sheet, u32 index) {
-    u32 offset = index * getTileSize(sheet->m_sprite_size, sheet->m_format);
-    return (buffer_t){ sheet->m_source + offset, getTileSize(sheet->m_sprite_size, sheet->m_format) };
+    u32 offset = index * getTileSize(sheet->sprite_size, sheet->format);
+    return (buffer_t){ sheet->source + offset, getTileSize(sheet->sprite_size, sheet->format) };
 }
