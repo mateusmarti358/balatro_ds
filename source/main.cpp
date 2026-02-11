@@ -5,9 +5,9 @@
 #include <nds.h>
 #include <stdio.h>
 
-#include "core/SpriteSheet.h"
-#include "core/SpriteFrame.h"
-#include "core/Sprite.h"
+#include "core/Sprite/SpriteSheet.h"
+#include "core/Sprite/SpriteFrame.h"
+#include "core/Sprite/Sprite.h"
 
 #include <enhancer_sprs.h>
 
