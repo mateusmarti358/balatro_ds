@@ -11,7 +11,7 @@ ARM_NONE_EABI_PATH	?= $(WONDERFUL_TOOLCHAIN)/toolchain/gcc-arm-none-eabi/bin/
 # User config
 # ===========
 
-NAME		:= template_arm9
+NAME		:= balinho
 
 GAME_TITLE	:= ARM9 only template
 GAME_SUBTITLE	:= Built with BlocksDS
@@ -265,7 +265,7 @@ $(BUILDDIR)/%.bin.o $(BUILDDIR)/%_bin.h : %.bin
 $(BUILDDIR)/%.png.o $(BUILDDIR)/%.h : %.png %.grit
 	@echo "  GRIT    $<"
 	@$(MKDIR) -p $(@D)
-	$(V)$(BLOCKSDS)/tools/grit/grit $< -ftc -W1 -o$(BUILDDIR)/$*
+	$(V)/c/msys64/opt/wonderful/thirdparty/blocksds/core/tools/grit/grit $< -ftc -W1 -o$(BUILDDIR)/$*
 	$(V)$(CC) $(CFLAGS) -MMD -MP -c -o $(BUILDDIR)/$*.png.o $(BUILDDIR)/$*.c
 	$(V)touch $(BUILDDIR)/$*.png.o $(BUILDDIR)/$*.h
 

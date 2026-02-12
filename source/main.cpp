@@ -2,6 +2,8 @@
 
 #include <nds/arm9/input.h>
 
+#include <cube
+
 #include <nds.h>
 #include <stdio.h>
 
@@ -64,16 +66,6 @@ u32 oamBytesForSprite(SpriteSize size, SpriteColorFormat format) {
 int main(int argc, char** argv) {
     dsInit();
 
-    // SpriteSheet sheet;
-    // SpriteSheet_init(&sheet, enhancer_sprsTiles, SpriteSize_32x32, SpriteColorFormat_256Color);
-
-    // SpriteData sd = SpriteSheet_getSpriteData(&sheet, 25);
-
-    // SpriteFrame frame;
-    // allocateSpriteFrame(&frame, &oamMain, sd);
-
-    // Sprite sprite = &frame;
-
     pool_t pool;
     pool_init(&pool, &oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
 
@@ -83,14 +75,12 @@ int main(int argc, char** argv) {
     set_enhancement(&card, GOLD_ENHANCEMENT);
     CardSprite cs = cardManager.loadCard(card);
 
-    cs.flipped = true;
+    cs.flipped = false;
 
     while(1) {
         scanKeys();
 
         CardSprite_draw(&cs, 0, 0, 0);
-
-        // Sprite_draw(sprite, 0, 0, 0);
 
         swiWaitForVBlank();
         oamUpdate(&oamMain);

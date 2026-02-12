@@ -1,0 +1,12 @@
+# Set bit depth to 8 (256 colors)
+-gB8
+
+# Ensure the output is tiled (Required for DS Sprites)
+-gt
+
+# Exclude the map
+-m!
+
+# Set metatile size to 4x4 (4*8 = 32 pixels wide, 4*8 = 32 pixels tall)
+-Mw4
+-Mh4

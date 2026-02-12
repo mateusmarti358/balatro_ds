@@ -29,8 +29,8 @@ class CardManager {
 
     SpriteFrame m_sealsFrames[SEAL_COUNT];
 
-    // SpriteSheet m_bonuses;
-    // FrameEntry m_bonusFrames[BONUS_COUNT];
+    SpriteSheet m_bonuses;
+    FrameEntry m_bonusFrames[BONUS_COUNT];
 
     // SpriteSheet m_cards;
     // SpriteFrame m_cardFrames[CARD_COUNT];
