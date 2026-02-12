@@ -2,8 +2,6 @@
 
 #include <nds.h>
 
-#include "enhancer.h"
-
 enum class Suit {
     DIAMONDS = 0,
     CLUBS = 1,
@@ -49,9 +47,9 @@ typedef u8 seal_t;
 
 #pragma endregion
 
-inline void set_stone(card_data_t* card, bool is_stone);
-inline void set_rank(card_data_t* card, int rank);
-inline void set_suit(card_data_t* card, Suit suit);
-inline void set_seal(card_data_t* card, int seal);
-inline void set_enhancement(card_data_t* card, int enhancement);
-inline void set_bonus(card_data_t* card, int bonus);
+void set_stone(card_data_t* card, bool is_stone);
+void set_rank(card_data_t* card, int rank);
+void set_suit(card_data_t* card, Suit suit);
+void set_seal(card_data_t* card, int seal);
+void set_enhancement(card_data_t* card, int enhancement);
+void set_bonus(card_data_t* card, int bonus);

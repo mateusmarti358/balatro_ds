@@ -5,13 +5,15 @@
 #include <nds.h>
 #include <stdio.h>
 
-#include "core/Sprite/SpriteSheet.h"
-#include "core/Sprite/SpriteFrame.h"
-#include "core/Sprite/Sprite.h"
+// #include "core/Sprite/SpriteSheet.h"
+// #include "core/Sprite/SpriteFrame.h"
+// #include "core/Sprite/Sprite.h"
 
 #include "core/video_allocator/pool.h"
 
 #include <enhancer_sprs.h>
+
+#include "game/card/visual/CardManager.h"
 
 void dsInit() {
     videoSetMode(MODE_0_2D);
@@ -62,21 +64,33 @@ u32 oamBytesForSprite(SpriteSize size, SpriteColorFormat format) {
 int main(int argc, char** argv) {
     dsInit();
 
-    SpriteSheet sheet;
-    SpriteSheet_init(&sheet, enhancer_sprsTiles, SpriteSize_32x32, SpriteColorFormat_256Color);
+    // SpriteSheet sheet;
+    // SpriteSheet_init(&sheet, enhancer_sprsTiles, SpriteSize_32x32, SpriteColorFormat_256Color);
 
-    SpriteData sd = SpriteSheet_getSpriteData(&sheet, 25);
+    // SpriteData sd = SpriteSheet_getSpriteData(&sheet, 25);
 
-    SpriteFrame frame;
-    allocateSpriteFrame(&frame, &oamMain, sd);
+    // SpriteFrame frame;
+    // allocateSpriteFrame(&frame, &oamMain, sd);
 
-    Sprite sprite;
-    sprite.frame = &frame;
+    // Sprite sprite = &frame;
+
+    pool_t pool;
+    pool_init(&pool, &oamMain, SpriteSize_32x32, SpriteColorFormat_256Color);
+
+    CardManager cardManager(&pool, 25);
+
+    card_data_t card = 0;
+    set_enhancement(&card, GOLD_ENHANCEMENT);
+    CardSprite cs = cardManager.loadCard(card);
+
+    cs.flipped = true;
 
     while(1) {
         scanKeys();
 
-        Sprite_draw(&sprite, 0, 0, 0);
+        CardSprite_draw(&cs, 0, 0, 0);
+
+        // Sprite_draw(sprite, 0, 0, 0);
 
         swiWaitForVBlank();
         oamUpdate(&oamMain);

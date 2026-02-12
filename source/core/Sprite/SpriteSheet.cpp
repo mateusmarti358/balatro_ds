@@ -37,7 +37,7 @@ void SpriteSheet_init(SpriteSheet* sheet, const void* source, SpriteSize sprite_
     sheet->sprite_size_bytes = getTileSize(sprite_size, format);
 }
 
-SpriteData SpriteSheet_getSpriteData(SpriteSheet* sheet, u32 index) {
+SpriteData SpriteSheet_getSpriteData(SpriteSheet* sheet, u16 index) {
     sassert(sheet->sprite_size_bytes != 0, "invalid sprite sheet");
     u32 offset = index * sheet->sprite_size_bytes;
     return (SpriteData){ (void*)sheet->source + offset, sheet->sprite_size_bytes, sheet->sprite_size, sheet->format };

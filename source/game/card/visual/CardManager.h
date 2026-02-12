@@ -1,10 +1,12 @@
 #pragma once
 
-#include "../../core/Sprite/SpriteSheet.h"
-#include "../../core/Sprite/SpriteFrame.h"
-#include "../../core/video_allocator/pool.h"
+#include "../../../core/Sprite/SpriteSheet.h"
+#include "../../../core/Sprite/SpriteFrame.h"
+#include "../../../core/video_allocator/pool.h"
 
-#include "card_data.h"
+#include "../logic/card_data.h"
+
+#include "CardSprite.h"
 
 #define ENHANCER_COUNT 26
 #define SEAL_COUNT 4
@@ -20,6 +22,8 @@ class CardManager {
         u16 count = 0;
     };
 
+    SpriteFrame m_backFrame;
+
     SpriteSheet m_enhancers;
     FrameEntry m_enhancerFrames[ENHANCER_COUNT];
 
@@ -31,7 +35,7 @@ class CardManager {
     // SpriteSheet m_cards;
     // SpriteFrame m_cardFrames[CARD_COUNT];
 
-    inline void loadEntry(FrameEntry* frame, int fidx);
+    inline void loadEntry(FrameEntry* frame, SpriteSheet* sheet, int fidx);
 
     inline void loadEnhancer(u8 enhancer);
     inline void loadPCard(u8 rank, u8 suit);
@@ -44,7 +48,7 @@ class CardManager {
     inline void unloadBonus(u8 bonus);
 
 public:
-    CardManager(pool_t* pool);
+    CardManager(pool_t* pool, u16 back);
     ~CardManager();
 
     CardSprite loadCard(card_data_t card);

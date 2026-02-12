@@ -22,9 +22,14 @@ int bonusToIdx(u8 bonus) {
     return 0;
 }
 
-CardManager::CardManager(pool_t *pool) : m_pool(pool),
-    m_enhancers(enhancer_sprsTiles, enhancer_sprsTilesLen, SpriteSize_32x32, SpriteColorFormat_256Color),
-{
+CardManager::CardManager(pool_t *pool, u16 back) : m_pool(pool) {
+    SpriteSheet_init(&m_enhancers, enhancer_sprsTiles, SpriteSize_32x32, SpriteColorFormat_256Color);
+
+    void* back_sprite_addr = SpriteSheet_getSpriteData(&m_enhancers, back).ptr;
+    m_backFrame = { pool->oam, NULL, SpriteSize_32x32, SpriteColorFormat_256Color };
+    m_backFrame.gfx = pool_aquire(pool, m_backFrame.size);
+    dmaCopy(back_sprite_addr, m_backFrame.gfx, 32*32);
+
     SpriteSheet seals_sprsheet;
     SpriteSheet_init(&seals_sprsheet, seal_sprsTiles, SpriteSize_8x8, SpriteColorFormat_16Color);
 
@@ -32,42 +37,51 @@ CardManager::CardManager(pool_t *pool) : m_pool(pool),
         void* seal_sprite_addr = SpriteSheet_getSpriteData(&seals_sprsheet, i).ptr;
         m_sealsFrames[i] = { pool->oam, NULL, SpriteSize_8x8, SpriteColorFormat_16Color };
         m_sealsFrames[i].gfx = oamAllocateGfx(pool->oam, m_sealsFrames[i].size, m_sealsFrames[i].format);
-        dmaCopy(seal_sprite_addr, m_sealsFrames[i].gfx, oamBytesForSprite(m_sealsFrames[i].size, m_sealsFrames[i].format));
+        dmaCopy(seal_sprite_addr, m_sealsFrames[i].gfx, (8*8)/2);
     }
+}
+CardManager::~CardManager() {
+
 }
 
 #pragma region load
 
-void CardManager::loadEntry(FrameEntry* frame, int fidx) {
+void CardManager::loadEntry(FrameEntry* frame, SpriteSheet* sheet, int fidx) {
     if ( frame->count != 0 ) {
-        sassert(frame->frame.valid(), "invalid frame: %d", fidx);
         frame->count++;
         return;
     }
 
-    m_seals.loadFrame(&frame->frame, m_oam, fidx);
+    SpriteData data = SpriteSheet_getSpriteData(sheet, fidx);
+    SpriteFrame frameData;
+    initSpriteFrame(&frameData, data, m_pool->oam);
+    frame->frame = frameData;
+
+    void* gfx = pool_aquire(m_pool, data.size);
+    dmaCopy(data.ptr, gfx, data.size);
+
     frame->count++;
 }
 
 void CardManager::loadEnhancer(u8 enhancer) {
     sassert(enhancer < ENHANCER_COUNT, "invalid seal");
     FrameEntry* frame = &m_enhancerFrames[enhancer];
-    loadEntry(frame, enhancer);
+    loadEntry(frame, &m_enhancers, enhancer);
 }
 void CardManager::loadPCard(u8 rank, u8 suit) {
     // TODO!
 }
 void CardManager::loadBonus(u8 bonus) {
-    sassert(bonus < BONUS, "invalid bonus");
+    // sassert(bonus < BONUS_COUNT, "invalid bonus");
 
-    if ( bonus == BONUS_NONE )
-        return;
+    // if ( bonus == BONUS_NONE )
+    //     return;
 
-    bonus = bonusToIdx(bonus);
+    // bonus = bonusToIdx(bonus);
 
-    FrameEntry* frame = &m_enhancerFrames[bonus];
+    // FrameEntry* frame = &m_bonusFrames[bonus];
 
-    loadEntry(frame, bonus);
+    // loadEntry(frame, &m_enhancers, bonus);
 }
 
 #pragma endregion
@@ -89,29 +103,24 @@ void CardManager::unloadBonus(u8 bonus) {
 
 #pragma endregion
 
-void CardManager::loadCard(card_data_t card) {
+CardSprite CardManager::loadCard(card_data_t card) {
     u8 enhancement = ENHANCEMENT(card);
     u8 enhancerIdx = enhancementToIdx(enhancement);
     loadEnhancer(enhancerIdx);
     
-    u8 bonus = BONUS(card) + 13;
-    sassert(bonus < 4, "invalid bonus");
-    if ( !m_enhancerFrames[bonus].valid() ) {
-        m_enhancers.loadFrame(&m_enhancerFrames[bonus], nullptr, bonus);
-    }
+    // u8 bonus = BONUS(card);
+    // loadBonus(bonus);
 
     // u8 rank = RANK(card);
     // u8 suit = SUIT(card);
-}
 
-void CardManager::draw(card_data_t card, int id, int x, int y) {
-    u8 enhancement = ENHANCEMENT(card);
-    sassert(m_enhancerFrames[enhancement].valid(), "invalid enhancement, poss cause: card not loaded");
-
-    u8 seal = SEAL(card);
-    if ( seal != NO_SEAL ) {
-        Sprite_draw(&m_sealsFrames[seal], id, x, y);
-    }
+    return (CardSprite) {
+        .back = &m_backFrame,
+        .enhancer = &m_enhancerFrames[enhancerIdx].frame,
+        .card = NULL,
+        .seal = NULL,
+        .bonus = NULL // &m_enhancerFrames[bonus].frame,
+    };
 }
 
 void CardManager::unloadCard(CardSprite card) {
