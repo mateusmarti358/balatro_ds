@@ -1,41 +1,19 @@
-# ROM Template (ARM9)
+# Balatro DSi Port
 
-## 1. Introduction
+A port of the game Balatro to the Nintendo DSi, built using the BlocksDS toolchain.
+## ⚠️ Disclaimer
 
-This template contains code to build a project with custom ARM9 and an ARM7
-provided by BlocksDS SDK.
+This project is for educational and study purposes only. It is a technical exercise in homebrew development and optimization for legacy hardware.
+### Features
 
-Build it with the following command:
+    Targeting Nintendo DSi hardware.
 
-```bash
-make
-```
+    Compiled using BlocksDS.
 
-This should have generated a NDS ROM that you can run on any emulator or
-flashcart.
+    Experimental performance and UI scaling.
 
-To do a verbose build, run `make` like this (this also works for the Makefile
-of the SDK):
+### Requirements
 
-```bash
-VERBOSE=1 make
-```
+    A Nintendo DSi with homebrew capabilities (SD card).
 
-## 2. Makefile instructions
-
-The paths in the Makefile that refer to source code, includes, graphics, data,
-etc, must be inside the folder of the project. That means you can't use `..`
-in a path to go one level up from the Makefile.
-
-If you really need to use folders outside of the folder of the project, create a
-symlink to the destination, or build the other code as a static library and link
-it with the project.
-
-## License
-
-This template is licensed under the following license:
-
-**CC0 1.0 Universal (CC0 1.0)**
-**Public Domain Dedication**
-
-You may use this code and modify it without the need to give credit in any way.
+    BlocksDS environment (for compilation).
