@@ -30,7 +30,15 @@ inline u16 getTileSize(SpriteSize size, SpriteColorFormat format) {
     }
 }
 
+void SpriteSheet_init(SpriteSheet* sheet, const void* source, SpriteSize sprite_size, SpriteColorFormat format) {
+    sheet->source = source;
+    sheet->sprite_size = sprite_size;
+    sheet->format = format;
+    sheet->sprite_size_bytes = getTileSize(sprite_size, format);
+}
+
 SpriteData SpriteSheet_getSpriteData(SpriteSheet* sheet, u32 index) {
-    u32 offset = index * getTileSize(sheet->sprite_size, sheet->format);
-    return (SpriteData){ (void*)sheet->source + offset, NULL, sheet->sprite_size, sheet->format };
+    sassert(sheet->sprite_size_bytes != 0, "invalid sprite sheet");
+    u32 offset = index * sheet->sprite_size_bytes;
+    return (SpriteData){ (void*)sheet->source + offset, sheet->sprite_size_bytes, sheet->sprite_size, sheet->format };
 }

@@ -11,6 +11,11 @@ void pool_init(pool_t* pool, OamState* oam, SpriteSize size, SpriteColorFormat f
         pool->freed[i] = i;
     }
 }
+void pool_destroy(pool_t* pool) {
+    for (int i = 0; i < MAX_POOL; i++) {
+        oamFreeGfx(pool->oam, pool->pool[i]);
+    }
+}
 
 void* pool_alloc(pool_t* pool, u16 size) {
     u16 idx = pool->freed[--pool->freed_top];

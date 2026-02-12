@@ -2,8 +2,20 @@
 
 void initSpriteFrame(SpriteFrame* frame, SpriteData data, OamState* oam) {
     frame->oam = oam;
-    frame->gfx = data.gfx;
-    frame->size = data.size;
+    frame->gfx = NULL;
+    frame->size = data.sprite_size;
+    frame->format = data.format;
+}
+
+void allocateSpriteFrame(SpriteFrame* frame, OamState* oam, SpriteData data) {
+    frame->oam = oam;
+    frame->gfx = NULL;
+    frame->size = data.sprite_size;
+    frame->format = data.format;
+
+    frame->gfx = oamAllocateGfx(frame->oam, data.sprite_size, data.format);
+    dmaCopy(data.ptr, frame->gfx, data.size);
+    frame->size = data.sprite_size;
     frame->format = data.format;
 }
 

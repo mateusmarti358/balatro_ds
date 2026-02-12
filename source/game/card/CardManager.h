@@ -12,7 +12,7 @@
 #define BONUS_COUNT 4
 
 class CardManager {
-    pool_t m_pool;
+    pool_t* m_pool;
 
     struct FrameEntry {
         SpriteFrame frame;
@@ -23,8 +23,7 @@ class CardManager {
     SpriteSheet m_enhancers;
     FrameEntry m_enhancerFrames[ENHANCER_COUNT];
 
-    SpriteSheet m_seals;
-    FrameEntry m_sealFrames[SEAL_COUNT];
+    SpriteFrame m_sealsFrames[SEAL_COUNT];
 
     // SpriteSheet m_bonuses;
     // FrameEntry m_bonusFrames[BONUS_COUNT];
@@ -36,18 +35,17 @@ class CardManager {
 
     inline void loadEnhancer(u8 enhancer);
     inline void loadPCard(u8 rank, u8 suit);
-    inline void loadSeal(seal_t seal);
     inline void loadBonus(u8 bonus);
 
     inline void unloadEntry(FrameEntry* frame, int fidx);
 
     inline void unloadEnhancer(u8 enhancer);
     inline void unloadPCard(u8 rank, u8 suit);
-    inline void unloadSeal(seal_t seal);
     inline void unloadBonus(u8 bonus);
 
 public:
-    CardManager(OamState*);
+    CardManager(pool_t* pool);
+    ~CardManager();
 
     CardSprite loadCard(card_data_t card);
     void unloadCard(CardSprite card);

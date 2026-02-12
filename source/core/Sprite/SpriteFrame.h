@@ -14,5 +14,6 @@ typedef struct {
 } SpriteFrame;
 
 void initSpriteFrame(SpriteFrame* frame, SpriteData data, OamState* oam);
+void allocateSpriteFrame(SpriteFrame* frame, OamState* oam, SpriteData data);
 void deleteSpriteFrame(SpriteFrame* frame);
 bool SpriteFrame_valid(SpriteFrame* frame);

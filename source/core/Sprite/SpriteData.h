@@ -4,7 +4,7 @@
 
 typedef struct {
     void *ptr;
-    void *gfx;
-    SpriteSize size;
+    u16 size;
+    SpriteSize sprite_size;
     SpriteColorFormat format;
 } SpriteData;

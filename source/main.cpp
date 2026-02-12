@@ -63,18 +63,12 @@ int main(int argc, char** argv) {
     dsInit();
 
     SpriteSheet sheet;
-    sheet.source = enhancer_sprsTiles;
-    sheet.sprite_size = SpriteSize_32x32;
-    sheet.format = SpriteColorFormat_256Color;
+    SpriteSheet_init(&sheet, enhancer_sprsTiles, SpriteSize_32x32, SpriteColorFormat_256Color);
 
     SpriteData sd = SpriteSheet_getSpriteData(&sheet, 25);
 
-    void* gfx = oamAllocateGfx(&oamMain, sd.size, sd.format);
-    dmaCopy(sd.ptr, gfx, oamBytesForSprite(sd.size, sd.format));
-    sd.gfx = gfx;
-
     SpriteFrame frame;
-    initSpriteFrame(&frame, sd, &oamMain);
+    allocateSpriteFrame(&frame, &oamMain, sd);
 
     Sprite sprite;
     sprite.frame = &frame;
