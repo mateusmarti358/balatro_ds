@@ -14,6 +14,9 @@
 
 #include "game/card/visual/CardManager.h"
 
+#include <deck.h>
+#include <seal_sprs.h>
+
 void dsInit() {
     videoSetMode(MODE_0_2D);
     oamInit(&oamMain, SpriteMapping_1D_128, false);
@@ -25,8 +28,9 @@ void dsInit() {
 
     consoleDemoInit();
 
+    // dmaCopy(deckPal, SPRITE_PALETTE, deckPalLen);
     dmaCopy(enhancer_sprsPal, SPRITE_PALETTE, enhancer_sprsPalLen);
-    dmaCopy(enhancer_sprsPal, SPRITE_PALETTE_SUB, enhancer_sprsPalLen);
+    // dmaCopy(seal_sprsPal, SPRITE_PALETTE, seal_sprsPalLen);
 }
 
 #define NUMBER_OF_FRAMES 50
@@ -69,19 +73,33 @@ int main(int argc, char** argv) {
     CardManager cardManager(&pool, 25);
 
     card_data_t card = 0;
-    set_enhancement(&card, GOLD_ENHANCEMENT);
+    set_enhancement(&card, STEEL_ENHANCEMENT);
+    set_seal(&card, RED_SEAL);
     CardSprite cs = cardManager.loadCard(card);
 
     cs.flipped = false;
+    DrawingParams params = {
+        0,
+        10, 10,
+        0,
+        false,
+        false,
+        false, false,
+        false
+    };
 
     while(1) {
         scanKeys();
 
-        CardSprite_draw(&cs, 0, 0, 0);
+        CardSprite_draw(&cs, params);
 
         swiWaitForVBlank();
         oamUpdate(&oamMain);
         oamUpdate(&oamSub);
+
+        do {
+            scanKeys();
+        } while(!keysDown());
     }
 
     do {

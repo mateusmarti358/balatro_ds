@@ -33,8 +33,8 @@ class CardManager {
     SpriteSheet m_bonuses;
     FrameEntry m_bonusFrames[BONUS_COUNT];
 
-    // SpriteSheet m_cards;
-    // SpriteFrame m_cardFrames[CARD_COUNT];
+    SpriteSheet m_cards;
+    FrameEntry m_cardFrames[CARD_COUNT];
 
     inline void loadEntry(FrameEntry* frame, SpriteSheet* sheet, int fidx);
 

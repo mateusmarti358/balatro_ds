@@ -1,12 +1,24 @@
 #include "CardSprite.h"
 
-void CardSprite_draw(CardSprite* sprite, int id, int x, int y) {
+void CardSprite_draw(CardSprite* sprite, DrawingParams params) {
     if ( sprite->flipped ) {
-        Sprite_draw(sprite->back, id, x, y);
+        Sprite_draw(sprite->back, params);
     } else {
-        Sprite_draw(sprite->enhancer, id, x, y);
-        // Sprite_draw(sprite->bonus, id, x, y);
-        // Sprite_draw(sprite->card, id, x, y);
-        // Sprite_draw(sprite->seal, id, x, y);
+        params.id++;
+        
+        if ( sprite->seal ) {
+            Sprite_draw(sprite->seal, params);
+        }
+
+        params.id++;
+        
+        Sprite_draw(sprite->card, params);
+        
+        params.id++;
+
+        if ( sprite->bonus )
+            Sprite_draw(sprite->bonus, params);
+
+        Sprite_draw(sprite->enhancer, params);
     }
 }

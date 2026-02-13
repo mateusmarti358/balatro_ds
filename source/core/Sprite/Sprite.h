@@ -9,4 +9,15 @@
 
 typedef SpriteFrame* Sprite;
 
-void Sprite_draw(Sprite sprite, int id, int x, int y);
+typedef struct {
+    int id;
+    int x, y;
+    int priority;
+    int affine;
+    bool sizeDouble;
+    bool hide;
+    bool hflip, vflip;
+    bool mosaic;
+} DrawingParams;
+
+void Sprite_draw(Sprite sprite, DrawingParams params);

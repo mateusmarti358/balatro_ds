@@ -12,4 +12,4 @@ typedef struct {
     bool flipped;
 } CardSprite;
 
-void CardSprite_draw(CardSprite* sprite, int idx, int x, int y);
+void CardSprite_draw(CardSprite* sprite, DrawingParams params);

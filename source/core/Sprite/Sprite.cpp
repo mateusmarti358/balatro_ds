@@ -1,18 +1,20 @@
 #include "Sprite.h"
 
-void Sprite_draw(Sprite sprite, int id, int x, int y) {
+void Sprite_draw(Sprite sprite, DrawingParams params) {
     if (!sprite) return;
     if (!SpriteFrame_valid(sprite)) return;
 
     oamSet(
-        sprite->oam, id,
-        x, y,
-        0, 0,
+        sprite->oam, params.id,
+        params.x, params.y,
+        params.priority,
+        0,
         sprite->size, sprite->format,
         sprite->gfx,
-        0,
-        false, false,
-        false, false,
-        false
+        params.affine,
+        params.sizeDouble,
+        params.hide,
+        params.hflip, params.vflip,
+        params.mosaic
     );
 }

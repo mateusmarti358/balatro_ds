@@ -4,7 +4,7 @@
 
 #include <nds.h>
 
-#define MAX_POOL 128
+#define MAX_POOL 64
 
 typedef struct {
     OamState* oam;

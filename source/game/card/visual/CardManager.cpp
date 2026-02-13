@@ -3,12 +3,13 @@
 #include <back_sprs.h>
 #include <enhancer_sprs.h>
 #include <bonus_sprs.h>
-// #include <deck.h>
+#include <deck.h>
 #include <seal_sprs.h>
 
 CardManager::CardManager(pool_t *pool, u16 back) : m_pool(pool) {
     SpriteSheet_init(&m_enhancers, enhancer_sprsTiles, SpriteSize_32x32, SpriteColorFormat_256Color);
     SpriteSheet_init(&m_bonuses, bonus_sprsTiles, SpriteSize_32x32, SpriteColorFormat_256Color);
+    SpriteSheet_init(&m_cards, deckTiles, SpriteSize_32x32, SpriteColorFormat_256Color);
 
     SpriteSheet back_sprsheet;
     SpriteSheet_init(&back_sprsheet, back_sprsTiles, SpriteSize_32x32, SpriteColorFormat_256Color);
@@ -23,10 +24,11 @@ CardManager::CardManager(pool_t *pool, u16 back) : m_pool(pool) {
     SpriteSheet_init(&seals_sprsheet, seal_sprsTiles, SpriteSize_8x8, SpriteColorFormat_16Color);
 
     for ( int i = 0; i < SEAL_COUNT; i++ ) {
-        void* seal_sprite_addr = SpriteSheet_getSpriteData(&seals_sprsheet, i).ptr;
-        m_sealsFrames[i] = { pool->oam, NULL, SpriteSize_8x8, SpriteColorFormat_16Color };
+        SpriteData seal_sd = SpriteSheet_getSpriteData(&seals_sprsheet, i);
+        initSpriteFrame(&m_sealsFrames[i], seal_sd, pool->oam);
         m_sealsFrames[i].gfx = oamAllocateGfx(pool->oam, m_sealsFrames[i].size, m_sealsFrames[i].format);
-        dmaCopy(seal_sprite_addr, m_sealsFrames[i].gfx, (8*8)/2);
+        dmaCopy(seal_sd.ptr, m_sealsFrames[i].gfx, (8*8)/2);
+        printf("%p\n", m_sealsFrames[i].gfx);
     }
 }
 CardManager::~CardManager() {
@@ -62,7 +64,8 @@ void CardManager::loadEnhancer(u8 enhancer) {
     loadEntry(frame, &m_enhancers, enhancer);
 }
 void CardManager::loadPCard(u8 rank, u8 suit) {
-    // TODO!
+    FrameEntry* frame = &m_cardFrames[rank + (suit * 13)];
+    loadEntry(frame, &m_cards, rank + (suit * 13));
 }
 void CardManager::loadBonus(u8 bonus) {
     sassert(bonus < BONUS_COUNT, "invalid bonus");
@@ -92,7 +95,8 @@ void CardManager::unloadEnhancer(u8 enhancer) {
     unloadEntry(&m_enhancerFrames[enhancer]);
 }
 void CardManager::unloadPCard(u8 rank, u8 suit) {
-
+    FrameEntry* frame = &m_cardFrames[rank + (suit * 13)];
+    unloadEntry(frame);
 }
 void CardManager::unloadBonus(u8 bonus) {
     if ( bonus == BONUS_NONE )
@@ -112,14 +116,15 @@ CardSprite CardManager::loadCard(card_data_t card) {
 
     u8 seal = SEAL(card);
 
-    // u8 rank = RANK(card);
-    // u8 suit = SUIT(card);
+    u8 rank = RANK(card);
+    u8 suit = (u8)SUIT(card);
+    loadPCard(rank, suit);
 
     return (CardSprite) {
         .back = &m_backFrame,
         .enhancer = &m_enhancerFrames[enhancement].frame,
         .bonus = (bonus > 0) ? &m_bonusFrames[bonus - 1].frame : NULL,
-        .card = NULL,
+        .card = &m_cardFrames[rank + (suit * 13)].frame,
         .seal = (seal > 0) ? &m_sealsFrames[seal - 1] : NULL
     };
 }
@@ -127,4 +132,8 @@ CardSprite CardManager::loadCard(card_data_t card) {
 void CardManager::unloadCard(card_data_t card) {
     unloadEnhancer(ENHANCEMENT(card));
     unloadBonus(BONUS(card));
+
+    u8 rank = RANK(card);
+    u8 suit = (u8)SUIT(card);
+    unloadPCard(rank, suit);
 }
