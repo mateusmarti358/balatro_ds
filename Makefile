@@ -265,7 +265,7 @@ $(BUILDDIR)/%.bin.o $(BUILDDIR)/%_bin.h : %.bin
 $(BUILDDIR)/%.png.o $(BUILDDIR)/%.h : %.png %.grit
 	@echo "  GRIT    $<"
 	@$(MKDIR) -p $(@D)
-	$(V)/c/msys64/opt/wonderful/thirdparty/blocksds/core/tools/grit/grit $< -ftc -W1 -o$(BUILDDIR)/$*
+	$(V)$(BLOCKSDS)/tools/grit/grit $< -ftc -W1 -o$(BUILDDIR)/$*
 	$(V)$(CC) $(CFLAGS) -MMD -MP -c -o $(BUILDDIR)/$*.png.o $(BUILDDIR)/$*.c
 	$(V)touch $(BUILDDIR)/$*.png.o $(BUILDDIR)/$*.h
 

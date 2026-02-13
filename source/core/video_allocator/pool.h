@@ -20,5 +20,7 @@ typedef struct {
 } pool_t;
 
 void pool_init(pool_t* pool, OamState* oam, SpriteSize size, SpriteColorFormat format);
-void* pool_aquire(pool_t* pool, u16 size);
-void pool_free(pool_t* pool, u16 idx);
+void pool_destroy(pool_t* pool);
+u16 pool_aquire(pool_t* pool);
+void pool_release(pool_t* pool, u16 idx);
+

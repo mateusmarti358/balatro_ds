@@ -2,10 +2,7 @@
 
 #include <nds/arm9/input.h>
 
-#include <cube
-
 #include <nds.h>
-#include <stdio.h>
 
 // #include "core/Sprite/SpriteSheet.h"
 // #include "core/Sprite/SpriteFrame.h"

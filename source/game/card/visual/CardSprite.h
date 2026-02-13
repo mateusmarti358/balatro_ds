@@ -5,9 +5,9 @@
 typedef struct {
     Sprite back;
     Sprite enhancer;
+    Sprite bonus;
     Sprite card;
     Sprite seal;
-    Sprite bonus;
 
     bool flipped;
 } CardSprite;

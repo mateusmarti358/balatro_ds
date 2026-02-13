@@ -16,15 +16,15 @@ void pool_destroy(pool_t* pool) {
     }
 }
 
-void* pool_aquire(pool_t* pool, u16 size) {
+u16 pool_aquire(pool_t* pool) {
     if ( pool->freed_top == 0 ) {
-        return pool->pool[pool->count++];
+        return pool->count++;
     }
 
     u16 idx = pool->freed[--pool->freed_top];
-    return pool->pool[idx];
+    return idx;
 }
 
-void pool_free(pool_t* pool, u16 idx) {
+void pool_release(pool_t* pool, u16 idx) {
     pool->freed[pool->freed_top++] = idx;
 }
