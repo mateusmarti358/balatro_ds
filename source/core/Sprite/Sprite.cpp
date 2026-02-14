@@ -8,7 +8,7 @@ void Sprite_draw(Sprite sprite, DrawingParams params) {
         sprite->oam, params.id,
         params.x, params.y,
         params.priority,
-        0,
+        params.palette,
         sprite->size, sprite->format,
         sprite->gfx,
         params.affine,

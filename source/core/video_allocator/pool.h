@@ -23,4 +23,3 @@ void pool_init(pool_t* pool, OamState* oam, SpriteSize size, SpriteColorFormat f
 void pool_destroy(pool_t* pool);
 u16 pool_aquire(pool_t* pool);
 void pool_release(pool_t* pool, u16 idx);
-

@@ -28,7 +28,6 @@ CardManager::CardManager(pool_t *pool, u16 back) : m_pool(pool) {
         initSpriteFrame(&m_sealsFrames[i], seal_sd, pool->oam);
         m_sealsFrames[i].gfx = oamAllocateGfx(pool->oam, m_sealsFrames[i].size, m_sealsFrames[i].format);
         dmaCopy(seal_sd.ptr, m_sealsFrames[i].gfx, (8*8)/2);
-        printf("%p\n", m_sealsFrames[i].gfx);
     }
 }
 CardManager::~CardManager() {

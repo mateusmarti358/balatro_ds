@@ -13,6 +13,7 @@ typedef struct {
     int id;
     int x, y;
     int priority;
+    int palette;
     int affine;
     bool sizeDouble;
     bool hide;

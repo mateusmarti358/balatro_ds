@@ -17,20 +17,34 @@
 #include <deck.h>
 #include <seal_sprs.h>
 
+void loadSpritePalette256(const u16* palette, int slot) {
+    dmaCopy(palette, &VRAM_F_EXT_SPR_PALETTE[slot][0], 512);
+}
+
+void loadSpritePalette16(const u16* palette, int slot) {
+    dmaCopy(palette, &VRAM_F_EXT_SPR_PALETTE[slot][0], 512);
+}
+
 void dsInit() {
     videoSetMode(MODE_0_2D);
-    oamInit(&oamMain, SpriteMapping_1D_128, false);
+    oamInit(&oamMain, SpriteMapping_1D_128, true);
     
     videoSetModeSub(MODE_0_2D);
-    oamInit(&oamSub, SpriteMapping_1D_128, false);
+    oamInit(&oamSub, SpriteMapping_1D_128, true);
 
-    vramSetPrimaryBanks(VRAM_A_MAIN_SPRITE, VRAM_B_MAIN_SPRITE, VRAM_C_SUB_BG, VRAM_D_SUB_SPRITE);
+    vramSetPrimaryBanks(VRAM_A_MAIN_BG, VRAM_B_MAIN_SPRITE, VRAM_C_SUB_BG, VRAM_D_SUB_SPRITE);
 
     consoleDemoInit();
+    
+    vramSetBankF(VRAM_F_LCD);
 
-    // dmaCopy(deckPal, SPRITE_PALETTE, deckPalLen);
-    dmaCopy(enhancer_sprsPal, SPRITE_PALETTE, enhancer_sprsPalLen);
-    // dmaCopy(seal_sprsPal, SPRITE_PALETTE, seal_sprsPalLen);
+    loadSpritePalette256(enhancer_sprsPal, 1);
+    loadSpritePalette256(deckPal, 2);
+    // loadSpritePalette16(seal_sprsPal, 2);
+
+    vramSetBankF(VRAM_F_SPRITE_EXT_PALETTE);
+
+    dmaCopy(seal_sprsPal, SPRITE_PALETTE, seal_sprsPalLen);
 }
 
 #define NUMBER_OF_FRAMES 50
@@ -97,9 +111,9 @@ int main(int argc, char** argv) {
         oamUpdate(&oamMain);
         oamUpdate(&oamSub);
 
-        do {
-            scanKeys();
-        } while(!keysDown());
+        // do {
+        //     scanKeys();
+        // } while(!keysDown());
     }
 
     do {
